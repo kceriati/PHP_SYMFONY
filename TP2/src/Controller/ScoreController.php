@@ -30,12 +30,27 @@ class ScoreController extends AbstractController
         ]);
     }
 
-    public function add(Request $request): Response
+    public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $score = new Score();
+
         if ($request->getMethod() == Request::METHOD_POST) {
-            /**
-             * @todo enregistrer l'objet
-             */
+            $player = $entityManager
+                        ->getRepository(Player::class)
+                        ->find($request->get('player'));
+
+
+            $game = $entityManager
+                        ->getRepository(Game::class)
+                        ->find($request->get('game'));
+
+            $score->setRegistrar($player);
+            $score->setGame($game);
+
+            $score->setScore($request->get('score'));
+            $score->setDate(new \DateTime());
+            $entityManager->persist($score);
+            $entityManager->flush();
             return $this->redirectTo("/score");
         }
     }

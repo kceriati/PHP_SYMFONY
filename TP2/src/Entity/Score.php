@@ -2,11 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\Score\Repository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ScoreRepository::class)
+ * @ORM\Entity()
  * @ORM\Table(name="score")
  */
 class Score
@@ -34,6 +33,13 @@ class Score
      * @ORM\ManyToOne(targetEntity="Player", inversedBy="Score")
      */
     private $registrar;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Game", inversedBy="scores")
+     */
+    private $game;
+
+
     public function getRegistrar(): Player
     {
         return $this->registrar;
@@ -41,6 +47,16 @@ class Score
     public function setRegistrar(Game $registrar): void
     {
         $this->registrar = $registrar;
+    }
+
+    public function getGame()
+    {
+        return $this->game;
+    }
+
+    public function setGame($game): void
+    {
+        $this->game = $game;
     }
 
     public function getId(): ?int

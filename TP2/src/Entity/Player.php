@@ -2,11 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\Player\Repository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=PlayerRepository::class)
+ * @ORM\Entity()
  * @ORM\Table(name="player")
  */
 
@@ -64,6 +63,18 @@ class Player
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getOwner(): ?string
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(string $owner): self
+    {
+        $this->owner = $owner;
 
         return $this;
     }

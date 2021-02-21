@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Repository\GameRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -67,6 +66,27 @@ class Game
         $this->image = $image;
 
         return $this;
+    }
+
+  
+    public function getPlayerGame()
+    {
+        return $this->playerGame;
+    }
+
+    public function setPlayerGame($playerGame): void
+    {
+        $this->playerGame = $playerGame;
+    }
+
+    public function getScore()
+    {
+        return $this->score;
+    }
+
+    public function setScore($score): void
+    {
+        $this->score = $score;
     }
 
     /**
