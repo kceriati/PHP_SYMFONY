@@ -2,8 +2,6 @@
 
 namespace App\Controller;
 
-
-use App\FakeData;
 use App\Entity\Game;
 use App\Entity\Player;
 use App\Entity\Score;
@@ -18,10 +16,9 @@ class ScoreController extends AbstractController
 
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $scores = FakeData::scores();
-
-        $games = FakeData::games();
-        $players = FakeData::players();
+        $scores = $entityManager->getRepository(Score::class)->findAll();
+        $games = $entityManager->getRepository(Game::class)->findAll();
+        $players = $entityManager->getRepository(Player::class)->findAll();
 
         return $this->render("score/index.html.twig", [
             "scores" => $scores,
@@ -34,7 +31,7 @@ class ScoreController extends AbstractController
     {
         $score = new Score();
 
-        if ($request->getMethod() == Request::METHOD_POST) {
+        if ($request->getMethod() == Request::METHOD_GET) {
             $player = $entityManager
                         ->getRepository(Player::class)
                         ->find($request->get('player'));
@@ -44,7 +41,7 @@ class ScoreController extends AbstractController
                         ->getRepository(Game::class)
                         ->find($request->get('game'));
 
-            $score->setRegistrar($player);
+            $score->setPlayer($player);
             $score->setGame($game);
 
             $score->setScore($request->get('score'));
@@ -53,6 +50,15 @@ class ScoreController extends AbstractController
             $entityManager->flush();
             return $this->redirectTo("/score");
         }
+    }
+
+    public function delete(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $repository = $entityManager->getRepository(Score::class);
+        $score = $repository->find($request->get('id'));
+        $entityManager->remove($score);
+        $entityManager->flush();
+        return $this->redirectTo("/score");
     }
 
 }

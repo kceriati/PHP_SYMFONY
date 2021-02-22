@@ -78,4 +78,15 @@ class Player
 
         return $this;
     }
+
+    public function getScoreGame()
+    {
+        return $this->scoreGame;
+    }
+
+    public function setScoreGame($scoreGame): void
+    {
+        $this->scoreGame = $scoreGame;
+    }
+
 }

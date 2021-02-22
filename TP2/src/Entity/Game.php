@@ -29,7 +29,6 @@ class Game
     private $image;
 
     /**
-     * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="Player", inversedBy="owner")
      */
      private $playerGame;
@@ -89,21 +88,4 @@ class Game
         $this->score = $score;
     }
 
-    /**
-     * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="Player", mappedBy="registrar")
-     */
-    private $registrations;
-    public function __construct()
-    {
-        $this->registrations = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    public function register(Player $player)
-    {
-        $this->registrations[] = $player;
-    }
-    public function getRegistrations()
-    {
-        return $this->registrations;
-    }
 }

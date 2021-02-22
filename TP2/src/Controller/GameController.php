@@ -71,7 +71,7 @@ class GameController extends AbstractController
         $entityManager->remove($game);
         $entityManager->flush();
 
-        return $this->redirectTo("/game.html.twig");
+        return $this->redirectTo("/game");
 
     }
 }

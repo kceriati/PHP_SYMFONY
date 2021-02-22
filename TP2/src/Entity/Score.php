@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 /**
  * @ORM\Entity()
@@ -23,16 +24,15 @@ class Score
     private $score;
 
     /**
-     * @ORM\Column(type="date", nullable=false)
+     * @ORM\Column(type="datetime")
+     * @var string A "Y-m-d H:i:s" formatted value
      */
-    private $created_at;
+    private DateTime  $created_at;
 
     /**
-     * // Nous faisons une relation Many(Player) To One(Score)
-     * @var Player
-     * @ORM\ManyToOne(targetEntity="Player", inversedBy="Score")
+     * @ORM\ManyToOne(targetEntity="Player", inversedBy="scores")
      */
-    private $registrar;
+    private $player;
 
     /**
      * @ORM\ManyToOne(targetEntity="Game", inversedBy="scores")
@@ -40,13 +40,13 @@ class Score
     private $game;
 
 
-    public function getRegistrar(): Player
+    public function getPlayer()
     {
-        return $this->registrar;
+        return $this->player;
     }
-    public function setRegistrar(Game $registrar): void
+    public function setPlayer($player): void
     {
-        $this->registrar = $registrar;
+        $this->player = $player;
     }
 
     public function getGame()
@@ -64,27 +64,23 @@ class Score
         return $this->id;
     }
 
-    public function getScore(): ?int
+    public function getScore()
     {
         return $this->score;
     }
 
-    public function setScore(int $score): self
+    public function setScore($score): void
     {
         $this->score = $score;
-
-        return $this;
     }
 
-    public function getDate(): mixed
+    public function getDate(): DateTime
     {
         return $this->created_at;
     }
 
-    public function setDate(mixed $created_at): mixed
+    public function setDate(DateTime $created_at): void
     {
-        $this->email = $created_at;
-
-        return $this;
+        $this->created_at = $created_at;
     }
 }
